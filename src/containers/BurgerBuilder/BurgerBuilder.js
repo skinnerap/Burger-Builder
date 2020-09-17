@@ -4,6 +4,9 @@ import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
+import axios from '../../axios-orders';
+import Spinner from '../../components/UI/Spinner/Spinner';
+import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 
 //Global Price List for All Ingredients
 //Note: this data could be fetched from an API
@@ -19,23 +22,66 @@ const INGREDIENT_PRICES = {
 class BurgerBuilder extends Component {
 
     state = {
-        ingredients: {
-            "bread-top": 1,
-            salad: 0,
-            bacon: 0,
-            cheese: 0,
-            meat: 0,
-            "bread-bottom": 1
-        },
+        ingredients: null,
         totalPrice: 2,
         purchaseable: false,
         purchasing: false,
-        cart: []
+        loading: false,
     }
 
-    addItemToCart = ( item ) => {
+    componentDidMount = () => {
+        axios.get('https://the-burger-builder-df9e4.firebaseio.com/ingredients.json')
+            .then(response => {
 
-        alert('Item is added to your cart!');
+                // Firebase alphabetizes database entries, thus we need to re-order them
+                // into the proper order (eg. Top bun on top, bottom bun on bottom, etc)
+                console.log('SPECIAL NOTE: Adding new ingredients? Edit componentDidMount() function as firebase ' +
+                            'alphabetizes database entry keys');
+
+                const orderedIngredients = {
+                    'bread-top' : response.data['bread-top'],
+                    'salad' : response.data['salad'],
+                    'bacon' : response.data['bacon'],
+                    'cheese' : response.data['cheese'],
+                    'meat' : response.data['meat'],
+                    'bread-bottom' : response.data['bread-bottom'],
+                }
+                
+
+                this.setState({ingredients: orderedIngredients});
+            });
+    }
+
+    addItemToCart = () => {
+
+        // Display spinner until request is sent
+        this.setState({loading: true});
+
+        // Store data about the order to send to server
+        const order = {
+            ingredients: this.state.ingredients,
+            price: this.state.totalPrice.toString(),
+            customer: {
+                fName: 'Alex',
+                lName: 'Skinner',
+                address: '3711 Vawter Ave',
+                city: 'Richmond',
+                state: 'VA',
+                zip: '20109',
+
+            }
+        }
+
+        // Post request with the order data
+        // .json extension on route is a requirement from Firebase
+        axios.post('/orders.json', order)
+            .then(res => {
+                // Reset the state of loading and purchasing
+                this.setState({loading: false, purchasing: false});
+            }).catch(err => {
+                // Error handled by state management and shows users a modal with info
+                console.log(err)
+            });
 
     }
 
@@ -133,31 +179,50 @@ class BurgerBuilder extends Component {
             disabledChoice[key] = disabledChoice[key] <= 0;
         }
 
+        let orderSummary = null;
+
+        let burger = <Spinner />
+
+        if(this.state.ingredients) {
+
+            burger =(
+                <Aux>
+                    <Burger 
+                        ingredients={this.state.ingredients} 
+                    />
+                    <BuildControls 
+                        ingredientAdded={this.addIngredientHandler}
+                        ingredientRemoved={this.removeIngredientHandler}
+                        disabled={disabledChoice}
+                        price={this.state.totalPrice}
+                        purchaseable={this.state.purchaseable}
+                        ordered={this.purchaseHandler}
+                    />
+                </Aux>);
+
+            orderSummary = 
+                <OrderSummary 
+                    itemAdded={this.addItemToCart}
+                    itemCanceled={this.cancelPurchaseHandler}
+                    ingredients={this.state.ingredients}
+                    price={this.state.totalPrice} />;
+
+            if(this.state.loading) {
+                orderSummary = <Spinner />;
+            }
+
+        }
 
         return (
             <Aux>
                 <Modal show={this.state.purchasing} clicked={this.cancelPurchaseHandler}>
-                    <OrderSummary 
-                        itemAdded={this.addItemToCart}
-                        itemCanceled={this.cancelPurchaseHandler}
-                        ingredients={this.state.ingredients}
-                        price={this.state.totalPrice} />
+                    {orderSummary}
                 </Modal>
-                <Burger 
-                    ingredients={this.state.ingredients} 
-                />
-                <BuildControls 
-                    ingredientAdded={this.addIngredientHandler}
-                    ingredientRemoved={this.removeIngredientHandler}
-                    disabled={disabledChoice}
-                    price={this.state.totalPrice}
-                    purchaseable={this.state.purchaseable}
-                    ordered={this.purchaseHandler}
-                />
+                {burger}
             </Aux>
         );
     }
 
 }
 
-export default BurgerBuilder;
+export default withErrorHandler(BurgerBuilder, axios);

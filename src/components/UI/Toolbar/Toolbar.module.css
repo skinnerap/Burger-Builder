@@ -45,3 +45,8 @@ header nav {
     cursor: pointer;
 }
 
+.text {
+    font-size: 60%;
+    vertical-align: middle;
+}
+

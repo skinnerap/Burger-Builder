@@ -16,7 +16,7 @@
 .NavItem a:hover,
 .NavItem a:active,
 .NavItem a.active {
-    background-color: #6b39e2;
+    background-color: #280863;
     color: rgb(255, 255, 255);
     border-bottom: 4px solid rgb(21, 209, 178);
 }
@@ -34,6 +34,7 @@
     .NavItem a {
         color: #fff;
         height: 100%;
+        width: max-content;
         text-decoration: none;
         padding: 16px 10px;
         display: block;
@@ -44,9 +45,9 @@
     .NavItem a:hover,
     .NavItem a:active,
     .NavItem a.active {
-        background-color: #6b39e2;
+        background-color: #250b63;
         color: rgb(255, 255, 255);
-        border-bottom: 4px solid rgb(21, 209, 178);
+        border-bottom: 10px solid rgb(138, 65, 221);
     }
 }
 

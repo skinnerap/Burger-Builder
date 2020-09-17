@@ -6,7 +6,7 @@ const toolBar = ( props ) => {
     return (
         <header>
             <Logo height="88%" />
-            <div className={classes.title}><span className={classes.text}>The Burger Builder</span></div>
+            <div className={classes.title}>The Burger Builder - <span className={classes.text}>A React.js Showcase</span></div>
             <nav className={classes.desktopOnly}>
                 <NavItems />
             </nav>

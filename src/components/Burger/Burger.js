@@ -4,6 +4,8 @@ import classes from './Burger.module.css';
 
 const burger = ( props ) => {
 
+    // Object.keys() : Used to mutate Object type into Array
+    // .map() : Used to 
     let transformedIngredients = Object.keys( props.ingredients ).map( igKey => {
         return [...Array( props.ingredients[igKey] )].map( ( _, i ) => {
             return <BurgerIngredient key={igKey + i} type={igKey} />
