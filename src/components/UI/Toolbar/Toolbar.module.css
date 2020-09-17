@@ -1,0 +1,47 @@
+header {
+    width: 100%;
+    height: 75px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-around;
+    background-color: #3c1180;
+    color: #fff;
+    padding: 0 20px;
+    box-sizing: border-box;
+    z-index: 90;
+}
+
+header nav {
+    height: 100%;
+}
+
+.title {
+    align-self: center;
+    text-transform: uppercase;
+    letter-spacing: .2rem;
+    font-size: 205%;
+}
+
+@media (max-width: 499px) {
+    .desktopOnly {
+        display: none;
+    }
+
+    .title {
+        font-size: 120%;
+    }
+}
+
+@media (min-width: 500px) {
+    .mobileOnly {
+        display: none;
+    }
+}
+
+.menuBtn {
+    font-size: 300%;
+    cursor: pointer;
+}
+

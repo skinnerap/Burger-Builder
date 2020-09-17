@@ -1,0 +1,19 @@
+.Logo {
+    background-color: #fff;
+    height: 100%;
+    padding: 7px;
+    margin-top: 5px;
+    border-radius: 5px;
+}
+
+.Logo img {
+    height: 100%;
+}
+
+@media (max-width: 500px) {
+    .Logo {
+        background-color: #2f2170;
+        width: 60%;
+        margin-bottom: 1.5rem;
+    }
+}
