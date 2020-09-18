@@ -10,14 +10,14 @@ import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 
 //Global Price List for All Ingredients
 //Note: this data could be fetched from an API
-const INGREDIENT_PRICES = {
-    "bread-top": .25,
-    "bread-bottom": .25,
-    meat: 2,
-    cheese: .5,
-    bacon: .75,
-    salad: .5
-};
+// const INGREDIENT_PRICES = {
+//     "bread-top": .25,
+//     "bread-bottom": .25,
+//     meat: 2,
+//     cheese: .5,
+//     bacon: .75,
+//     salad: .5
+// };
 
 class BurgerBuilder extends Component {
 
@@ -27,9 +27,18 @@ class BurgerBuilder extends Component {
         purchaseable: false,
         purchasing: false,
         loading: false,
+        priceList: {
+            "bread-top": null,
+            "bread-bottom": null,
+            meat: null,
+            cheese: null,
+            bacon: null,
+            salad: null
+        }
     }
 
     componentDidMount = () => {
+
         axios.get('https://the-burger-builder-df9e4.firebaseio.com/ingredients.json')
             .then(response => {
 
@@ -45,11 +54,23 @@ class BurgerBuilder extends Component {
                     'cheese' : response.data['cheese'],
                     'meat' : response.data['meat'],
                     'bread-bottom' : response.data['bread-bottom'],
-                }
-                
+                } 
 
                 this.setState({ingredients: orderedIngredients});
-            });
+
+            }).catch(err => console.log(err));
+
+        // Update state priceList from Firebase
+        axios.get('https://the-burger-builder-df9e4.firebaseio.com/price.json')
+            .then(response => {
+                let copy = {...this.state.priceList};
+                for(let key in copy) {
+                    copy[key] = response.data[key];
+                }
+                this.setState({priceList: copy});
+
+            }).catch(err => console.log(err));
+
     }
 
     addItemToCart = () => {
@@ -122,7 +143,7 @@ class BurgerBuilder extends Component {
 
         //Update the total price
         const oldPrice = this.state.totalPrice;
-        const priceToAdd = INGREDIENT_PRICES[type];
+        const priceToAdd = this.state.priceList[type];
         const newPrice = oldPrice + priceToAdd;
 
         this.setState({
@@ -152,7 +173,8 @@ class BurgerBuilder extends Component {
 
         //Update the total price
         const oldPrice = this.state.totalPrice;
-        const priceToSubtract = INGREDIENT_PRICES[type];
+        const priceToSubtract = this.state.priceList[type];
+        console.log('price to subtract: ' + priceToSubtract);
         const newPrice = oldPrice - priceToSubtract;
 
         this.setState({
@@ -181,7 +203,7 @@ class BurgerBuilder extends Component {
 
         let orderSummary = null;
 
-        let burger = <Spinner />
+        let burger = <Spinner style={{'margin-top': '50v'}}/>
 
         if(this.state.ingredients) {
 

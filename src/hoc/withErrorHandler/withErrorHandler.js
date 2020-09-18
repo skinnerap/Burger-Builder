@@ -6,22 +6,29 @@ const withErrorHandler = ( WrappedComponent, axios ) => {
 
     return class extends Component {
 
-        baseErrorMsg ='Bummer dude, it looks like something went wrong: ';
-
         state = {
             error: null
         }
 
-        componentDidMount() {
+        baseErrorMsg ='Bummer dude, it looks like something went wrong: ';
 
-            axios.interceptors.response.use(res => res, error => {
+        componentWillMount() {
+
+            this.resInterceptor = axios.interceptors.response.use(res => res, error => {
                 this.setState({error: error});
             });
 
-            axios.interceptors.request.use(req => {
+            this.reqInterceptor = axios.interceptors.request.use(req => {
                 this.setState({error: null});
                 return req;
             });
+            
+        }
+
+        componentWillUnmount = () => {
+
+            axios.interceptors.request.eject(this.reqInterceptor);
+            axios.interceptors.response.eject(this.resInterceptor);
 
         }
 
