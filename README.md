@@ -1,5 +1,7 @@
+## The Burger Builder
+
 This is a react web application that connects to a REST API via Firebase. The application allows you to<br />
-Build burgers, which are animated on the screen with pure css. There are 0 images in this application, leading<br />
+Build burgers, which are animated on the screen with pure css. There is 1 tiny logo image in this application (that's it), leading<br />
 to faster load times! This application could be extended to include all kinds of different foods, so please don't<br />
 hesitate to send an issue or pull request in!
 
