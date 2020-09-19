@@ -8,7 +8,8 @@ const orderSummary = ( props ) => {
         return (
             <li key={igKey}>
                 <span>
-                    {igKey === 'bread-top' ? 'Top Bun' : igKey === 'bread-bottom' ? 'Bottom Bun' : igKey === 'salad' ? 'Lettuce' : igKey}
+                    {igKey === 'abread-top' ? 'Top Bun' : igKey === 'fbread-bottom' ? 'Bottom Bun' : igKey === 'bsalad' ? 'Lettuce' : 
+                     igKey === 'cbacon' ? 'Bacon' : igKey === 'dcheese' ? 'Cheese' : igKey === 'emeat' ? 'Beef Patty' : null}
                 </span>
                 : {props.ingredients[igKey] === 0 ? 'None' : 'x' + props.ingredients[igKey]}
             </li>

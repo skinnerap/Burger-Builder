@@ -28,12 +28,12 @@ class BurgerBuilder extends Component {
         purchasing: false,
         loading: false,
         priceList: {
-            "bread-top": null,
-            "bread-bottom": null,
-            meat: null,
-            cheese: null,
-            bacon: null,
-            salad: null
+            "abread-top": null,
+            "fbread-bottom": null,
+            emeat: null,
+            dcheese: null,
+            cbacon: null,
+            bsalad: null
         }
     }
 
@@ -48,12 +48,12 @@ class BurgerBuilder extends Component {
                             'alphabetizes database entry keys');
 
                 const orderedIngredients = {
-                    'bread-top' : response.data['bread-top'],
-                    'salad' : response.data['salad'],
-                    'bacon' : response.data['bacon'],
-                    'cheese' : response.data['cheese'],
-                    'meat' : response.data['meat'],
-                    'bread-bottom' : response.data['bread-bottom'],
+                    'abread-top' : response.data['abread-top'],
+                    'bsalad' : response.data['bsalad'],
+                    'cbacon' : response.data['cbacon'],
+                    'dcheese' : response.data['dcheese'],
+                    'emeat' : response.data['emeat'],
+                    'fbread-bottom' : response.data['fbread-bottom'],
                 } 
 
                 this.setState({ingredients: orderedIngredients});
@@ -75,34 +75,20 @@ class BurgerBuilder extends Component {
 
     addItemToCart = () => {
 
-        // Display spinner until request is sent
-        this.setState({loading: true});
+        let queryParams = [];
 
-        // Store data about the order to send to server
-        const order = {
-            ingredients: this.state.ingredients,
-            price: this.state.totalPrice.toString(),
-            customer: {
-                fName: 'Alex',
-                lName: 'Skinner',
-                address: '3711 Vawter Ave',
-                city: 'Richmond',
-                state: 'VA',
-                zip: '20109',
-
-            }
+        for(let i in this.state.ingredients) {
+            queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]));
         }
 
-        // Post request with the order data
-        // .json extension on route is a requirement from Firebase
-        axios.post('/orders.json', order)
-            .then(res => {
-                // Reset the state of loading and purchasing
-                this.setState({loading: false, purchasing: false});
-            }).catch(err => {
-                // Error handled by state management and shows users a modal with info
-                console.log(err)
-            });
+        queryParams.push('price=' + this.state.totalPrice);
+
+        queryParams = queryParams.join('&');
+
+        this.props.history.push({
+            pathname: '/cart',
+            search: '?' + queryParams
+        });
 
     }
 

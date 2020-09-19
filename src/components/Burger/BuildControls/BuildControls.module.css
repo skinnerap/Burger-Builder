@@ -9,6 +9,10 @@
     letter-spacing: .1rem;
 }
 
+.Price{ 
+    margin: 35px auto 20px auto;
+
+}
 
 .OrderButton {
     background-color: #4f17fa;

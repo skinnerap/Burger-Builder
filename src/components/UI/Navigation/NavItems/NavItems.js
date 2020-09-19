@@ -5,10 +5,9 @@ import NavItem from '../NavItems/NavItem/NavItem';
 const navItems = () => {
     return (
         <ul className={classes.NavItems}>
-            <NavItem link='/' active>Burger Builder</NavItem>
-            <NavItem link='/'>Cart</NavItem>
-            <NavItem link='/'>Source Code</NavItem>
-            <NavItem link='/'>Portfolio</NavItem>
+            <NavItem link='/' exact>Burger Builder</NavItem>
+            <NavItem link='/orders'>Your Creations</NavItem>
+            <NavItem link='https://github.com/skinnerap/Burger-Builder'>Source Code</NavItem>
         </ul>
     )
 }

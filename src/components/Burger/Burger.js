@@ -5,7 +5,6 @@ import classes from './Burger.module.css';
 const burger = ( props ) => {
 
     // Object.keys() : Used to mutate Object type into Array
-    // .map() : Used to 
     let transformedIngredients = Object.keys( props.ingredients ).map( igKey => {
         return [...Array( props.ingredients[igKey] )].map( ( _, i ) => {
             return <BurgerIngredient key={igKey + i} type={igKey} />
@@ -17,6 +16,8 @@ const burger = ( props ) => {
     if(transformedIngredients.length < 1) {
         transformedIngredients = <p>Time to build your dream burger, yum!</p>
     }
+
+    console.log(transformedIngredients);
 
     return (
         <div className={classes.Burger}>
