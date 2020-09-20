@@ -65,7 +65,7 @@ class ContactData extends Component {
         },
         loading: false,
         modalOpen: true,
-        formIsValid: true
+        formIsValid: false
     }
 
     closeModalHandler = () => {
@@ -115,8 +115,8 @@ class ContactData extends Component {
         orderFormCopy[formID] = formElementCopy;
 
         let formValidity = true;
-        for(let formID in orderFormCopy) {
-            formValidity = orderFormCopy[formID].valid && formValidity;
+        for(let elt in orderFormCopy) {
+            formValidity = orderFormCopy[elt].valid && formValidity;
         }
 
         this.setState({orderForm: orderFormCopy, formIsValid: formValidity})
@@ -131,7 +131,6 @@ class ContactData extends Component {
             isValid = value.trim() !== '';
         }
 
-        console.log(isValid);
         return isValid;
 
     }

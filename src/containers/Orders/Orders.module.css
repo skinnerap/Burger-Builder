@@ -1,3 +1,13 @@
 .Orders {
     margin: 100px auto 100px auto;
 }
+
+.Header {
+    text-align: center;
+    font-size: 250%;
+    font-weight: 300;
+    color: rgb(43, 43, 43);
+    text-transform: uppercase;
+    margin-top: 40px;
+    margin-bottom: 50px;
+}

@@ -4,6 +4,7 @@ import Burger from '../Burger/Burger';
 
 const Order = ( props ) => {
 
+    console.log('Order: ' + props)
     const ingredients = [];
 
     for(let igName in props.ingredients) {
@@ -43,6 +44,12 @@ const Order = ( props ) => {
 
     return (
         <div className={classes.Order}>
+            <span className={classes.UserName}>
+                {props.orderData.name}
+            </span>
+            <span className={classes.UserName}>
+                From {props.orderData.city}, {props.orderData.state}, {props.orderData.country}
+            </span>
             <Burger
                 ingredients={props.ingredients} />
             <p>Ingredients: {transformedIngredients}</p>
