@@ -11,7 +11,7 @@ const orderSummary = ( props ) => {
                     {igKey === 'abread-top' ? 'Top Bun' : igKey === 'fbread-bottom' ? 'Bottom Bun' : igKey === 'bsalad' ? 'Lettuce' : 
                      igKey === 'cbacon' ? 'Bacon' : igKey === 'dcheese' ? 'Cheese' : igKey === 'emeat' ? 'Beef Patty' : null}
                 </span>
-                : {props.ingredients[igKey] === 0 ? 'None' : 'x' + props.ingredients[igKey]}
+                : {props.ingredients[igKey] === 0 ? 'None' : '(' + props.ingredients[igKey] + ')'}
             </li>
         )
     })

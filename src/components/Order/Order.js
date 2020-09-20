@@ -4,8 +4,6 @@ import Burger from '../Burger/Burger';
 
 const Order = ( props ) => {
 
-    console.log(props)
-
     const ingredients = [];
 
     for(let igName in props.ingredients) {
@@ -40,15 +38,8 @@ const Order = ( props ) => {
             transformedName = 'Bacon';
         }
 
-        return <span className={classes.Ingredient}> {transformedName}: {ig.amount} </span>
+        return <span className={classes.Ingredient} key={ig.name}> {transformedName}: {ig.amount} </span>
     })
-
-    // Substituion for above commented out code
-    // const transformedIngredients = ingredients.map(ig => {
-    //     return <span className={classes.Ingredient}> {ig.name}: {ig.amount} </span>
-    // })
-
-    console.log(props.ingredients)
 
     return (
         <div className={classes.Order}>

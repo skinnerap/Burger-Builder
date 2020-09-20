@@ -1,6 +1,5 @@
 .ContactData {
-    width: 80%;
-    margin: 0 auto 50px auto;
+    width: 100%;
     box-sizing: border-box;
     text-align: center;
     padding: 20px;
@@ -10,7 +9,7 @@
 
 .input {
     display: block;
-    width: 50%;
+    width: 90%;
     margin: 5px auto 0 auto;
     padding: 20px;
     box-shadow: 0 2px 3px #ccc;
@@ -30,7 +29,13 @@
 }
 
 @media (max-width: 499px) {
+
+    .ContactData {
+        font-size: 90%;
+    }
+
     .input {
-        width: 90%;
+        width: 95%;
+        padding: 8px;
     }
 }
